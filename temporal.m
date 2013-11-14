@@ -11,7 +11,7 @@ for i = 2:m
 end
 
 for i = (m-1):-1:1
-  ir(:,i) = ir(:,i+1) + (fi(:,i-1)-rc(:,i)).^2;
+  ir(:,i) = ir(:,i+1) + (fi(:,i+1)-rc(:,i)).^2;
 end
 tc = il+ir;
 end
