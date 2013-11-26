@@ -6,12 +6,13 @@ function tc = temporal(fi, prev_seam)
 rc = carve(fi, prev_seam);
 %il = zeros(size(fi));
 %ir = zeros(size(fi));
-il = [zeros([size(fi,1) 1]) cumsum((fi(:,1:end-1) - rc).^2,2)];
+pad = zeros([size(fi,1) 1]) ;
+il = [pad cumsum((fi(:,1:end-1) - rc).^2,2)];
 %for i = 2:m
   %il(:,i) = il(:,i-1) + (fi(:,i-1)-rc(:,i-1)).^2;
 %end
 %sum(sum(il == ill))
-ir = [cumsum((fi(:,end:-1:2) - rc(:,end:-1:1)).^2,2) zeros([size(fi,1) 1])];
+ir = [cumsum((fi(:,end:-1:2) - rc(:,end:-1:1)).^2,2) pad];
 %for i = (m-1):-1:1
  % ir(:,i) = ir(:,i+1) + (fi(:,i+1)-rc(:,i)).^2;
 %end
