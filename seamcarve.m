@@ -50,12 +50,27 @@ end
 seamenergy(1,:) = cost(1,:);
 for i = 2:n
   for j = 1:m
-    d = getDirection(seamenergy, sv, ws, i, j, m);
+    d = getDirection(i, j, m);
     directions(i,j) = d;
     seamenergy(i,j) = seamenergy(i-1,j+directions(i,j))...
       + cost(i,j) + sv(i,j,ws + 1 + d);
   end
 end
+      function d = getDirection(i, j, m)
+      % take the energy cache sv, and i,j, m returns the best d
+
+      % get the legit direction candidates
+        ds = -ws:ws;
+        ds = ds(j + ds > 0);
+        ds = ds(j + ds <= m);
+
+        % get the energies
+        svprime = sv(i,j,ws+1-ds);
+        ecprime = seamenergy(i-1,ds+j);
+        en = ecprime(:) + svprime(:);
+        [~, ids] = min(en);
+        d = ds(ids);
+      end
 
 % calc the seam from the cache
 [~, idx] = min(seamenergy(n,:));
@@ -70,21 +85,7 @@ ri = carve(frgb(:,:,:,1), seam);
 end
 
 %% part of dp
-function d = getDirection(energyCache, sv, ws, i, j, m)
-% take the energy cache sv, and i,j, m returns the best d
 
-% get the legit direction candidates
-ds = -ws:ws;
-ds = ds(j + ds > 0);
-ds = ds(j + ds <= m);
-
-% get the energies
-svprime = sv(i,j,ws+1-ds);
-ecprime = energyCache(i-1,ds+j);
-en = ecprime(:) + svprime(:);
-[~, idx] = min(en);
-d = ds(idx);
-end
 
 
 %% weighting function
