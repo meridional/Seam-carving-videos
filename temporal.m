@@ -12,7 +12,7 @@ il = [pad cumsum((fi(:,1:end-1) - rc).^2,2)];
   %il(:,i) = il(:,i-1) + (fi(:,i-1)-rc(:,i-1)).^2;
 %end
 %sum(sum(il == ill))
-ir = [cumsum((fi(:,end:-1:2) - rc(:,end:-1:1)).^2,2) pad];
+ir = [fliplr(cumsum((fi(:,end:-1:2) - rc(:,end:-1:1)).^2,2)) pad];
 %for i = (m-1):-1:1
  % ir(:,i) = ir(:,i+1) + (fi(:,i+1)-rc(:,i)).^2;
 %end
