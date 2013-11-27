@@ -2,15 +2,14 @@ function [sh] = spatioh(fi)
 % spatioh - takes a frame
 % returns a matrix of horizonal costs
 
-% TODO: actual implementation
+% tiny mistake in line 12. 
 
-n = size(fi,1);
-m = size(fi,2);
+[n,m] = size(fi);
 d = [zeros([n 1]) fi(:,1:(m-1))];
 f = [fi(:,2:m) zeros([n 1])];
 
 % middle part
-sh = abs(fi-d) + abs(fi - f) + abs(d - f);
+sh = abs(fi-d) + abs(fi - f) - abs(d - f);
 
 % boundaries
 sh(:,1) = abs(abs(fi(:,1)-fi(:,2)) - abs(fi(:,2)-fi(:,3)));
